@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- vue3 라이브러리 로딩 : CDN -->
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+<h1>컴포넌트 사용 범위🫧</h1><br>
+1️⃣ <b>전역 컴포넌트 :</b> 여러 컴포넌트에서 유효<br>
+2️⃣ <b>지역 컴포넌트 :</b> 특정 컴포넌트에서만 유효<br>
+<hr>
+<div id="appBasic">
+    <hello></hello> <!-- hello 컴포넌트 사용 : 사용자 정의 태그 -->
+</div>
+
+<div id="appBasic2">
+    <world style="color: red;"></world> <!-- world 컴포넌트 사용 : 사용자 정의 태그 -->
+    <world style="color: blue;"></world>
+</div>
+
+<script>
+    const {createApp} = Vue;
+
+    const appBasic = createApp({}); // 첫번째 Vue Application Instance
+    
+    // 01. hello component
+    // XXX.component('컴포넌트명', 옵션)
+    appBasic.component('hello', {  // hello 컴포넌트를 전역으로 선언
+        // 👇🏻옵션
+        template: "<h1>{{title}}</h1>", // 16번줄 hello컴포넌트의 템플릿 정의. HTML, CSS 등의 마크업을 정의
+        data() {
+            return {
+                title:'🖐🏻' // 컴포넌트의 Local Data를 정의 : hello컴포넌트에서만 쓰임.
+            }
+        },
+    });
+    // DOM 연결
+    appBasic.mount('#appBasic')
+
+    
+
+    const appBasic2 = createApp({}); // 두번째 Vue Application Instance
+
+    // 02. world component
+    appBasic2.component('world', {
+        // 컴포넌트 템플릿과 이벤트 포함
+        template: '<h1>{{title}}<button @click="changeTitle">타이틀 변경</button></h1>',
+
+        data() {
+            return {
+                title:'w🌏rld' // 컴포넌트의 Loca Data를 정의
+            }
+        },
+        methods: {
+            changeTitle() {
+                this.title = "변경된 타이틀";
+            }
+        },
+    });
+    // DOM 연결
+    appBasic2.mount('#appBasic2')
+</script>
+<hr style="border:1px solid red; height:10px; background: pink;">
+<div id="app">
+    <div>컴포넌트 등록01</div>
+    <my-global-component></my-global-component>
+    <my-local-component></my-local-component>
+</div>
+<hr style="border:1px solid rgb(255, 128, 0); height:10px; background: rgb(255, 218, 149);">
+
+<div id="app2">
+    <div>컴포넌트 등록02</div>
+    <my-global-component></my-global-component>
+    <my-local-component></my-local-component>
+</div>
+<hr style="border:1px solid rgb(225, 221, 0); height:10px; background: rgb(255, 255, 155);">
+
+<div id="app3">
+    <div>컴포넌트 등록03</div>
+    <my-global-component></my-global-component>
+    <my-local-component></my-local-component>
+</div>
+<hr style="border:1px solid green; height:10px; background: rgb(165, 255, 180);">
+<script>
+    
+    // 전역 컴포넌트를 등록하는 공용 컴포넌트를 정의
+    const myGlobalComponent = {
+        template:"<b>전역 컴포넌트 등록</b>"
+    }
+    // app
+    const app = Vue.createApp ({
+        components:{
+            'my-global-component' : myGlobalComponent, // 전역 컴포넌트 등록
+            'my-global-component' : { // 지역 컴포넌트 등록
+                template:"<br><i>지역 컴포넌트 등록</i></br>"
+            },
+        },
+    });
+    app.mount('#app');
+
+    // app2
+    const app2 = Vue.createApp ({
+        components:{
+            'my-global-component' : myGlobalComponent, // 전역 컴포넌트 등록
+            'my-global-component' : { // 지역 컴포넌트 등록
+                template:"<br><i>지역 컴포넌트 등록2</i></br>"
+            },
+        },
+    });
+    app2.mount('#app2');
+
+    // app3
+    const app3 = Vue.createApp ({
+        components:{
+            'my-global-component' : myGlobalComponent, // 전역 컴포넌트 등록
+            'my-global-component' : { // 지역 컴포넌트 등록
+                template:"<br><i>지역 컴포넌트 등록3</i></br>"
+            },
+        },
+    });
+    app3.mount('#app3');
+</script>
+</body>
+</html>

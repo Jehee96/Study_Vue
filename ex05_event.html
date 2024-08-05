@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- vue3 라이브러리 로딩 : CDN -->
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <h1>🏷️Vue 이벤트 처리</h1><br>
+    HTML 이벤트는 DOM 엘리머늩에서 일어난다. (서버에서 읽기 종료, 입력폼 전송, 버튼 클릭 등..)<br>
+    Vue에서 DOM 이벤트를 Listen하려면 해당 엘리먼트에 v-on을 사용하면 된다.<br><br>
+
+    <h3>🚀<b>형식</b></h3>
+    <h3>v-on : 이벤트 이름="메소드명"<br>
+    ex : v-on:click="goHandler" 또는 @click="goHandler"<br><br>
+    이벤트 버스(Event Bus) : 이벤트 간에 데이터를 전달할 수 있는 방법을 의미한다.
+    사용 방법은 $emit(이벤트 생성), $on(이벤트 호출), $off(이벤트 제거)<br>
+    보내는 컴포넌트에는 .$emit()을, 받는 컴포넌트에는 .$on()을 구현한다.</h3>
+    <hr>
+</body>
+</html>
