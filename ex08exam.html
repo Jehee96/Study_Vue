@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- vue3 라이브러리 로딩 : CDN -->
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="app">
+        <h2>성적 관리</h2>
+        이름 : <input type="text" v-model="name" /><br>
+        자바 : <input type="text" v-model.number="java" value="0" /><br>
+        리엑트 : <input type="text" v-model.number="react" value="0" /><br>
+        뷰 : <input type="text" v-model.number="vue" value="0" /><br><br>
+        <button @click="myChange">확인</button>
+        <br><br>
+        <h2>입력 결과</h2>
+        <ol>
+            <li v-for="(res, index) in listArr" :key="index">
+            <p>{{ res.name }} : {{res.java}}, {{res.react}}, {{res.vue}} 총점 : {{ res.total }}</p>
+            </li>
+        </ol>
+
+        <br><br>
+        <h2>전체 통계</h2>
+        <p>인원수 : {{ totalPeople }} 전체 총점 : {{ totalSum }}</p>
+    </div>
+    <script src="ex08exam_info.js"></script>
+</body>
+</html>

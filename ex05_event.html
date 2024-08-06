@@ -1,23 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <!-- vue3 라이브러리 로딩 : CDN -->
     <script src="https://unpkg.com/vue@3"></script>
-</head>
-<body>
-    <h1>🏷️Vue 이벤트 처리</h1><br>
-    HTML 이벤트는 DOM 엘리머늩에서 일어난다. (서버에서 읽기 종료, 입력폼 전송, 버튼 클릭 등..)<br>
-    Vue에서 DOM 이벤트를 Listen하려면 해당 엘리먼트에 v-on을 사용하면 된다.<br><br>
+  </head>
+  <body>
+    <h1>🏷️Vue 이벤트 처리</h1>
+    <br />
+    HTML 이벤트는 DOM 엘리머늩에서 일어난다. (서버에서 읽기 종료, 입력폼 전송,
+    버튼 클릭 등..)<br />
+    Vue에서 DOM 이벤트를 Listen하려면 해당 엘리먼트에 v-on을 사용하면 된다.<br /><br />
 
     <h3>🚀<b>형식</b></h3>
-    <h3>v-on : 이벤트 이름="메소드명"<br>
-    ex : v-on:click="goHandler" 또는 @click="goHandler"<br><br>
-    이벤트 버스(Event Bus) : 이벤트 간에 데이터를 전달할 수 있는 방법을 의미한다.
-    사용 방법은 $emit(이벤트 생성), $on(이벤트 호출), $off(이벤트 제거)<br>
-    보내는 컴포넌트에는 .$emit()을, 받는 컴포넌트에는 .$on()을 구현한다.</h3>
-    <hr>
-</body>
+    <h3>
+      v-on : 이벤트 이름="메소드명"<br />
+      ex : v-on:click="goHandler" 또는 @click="goHandler"<br /><br />
+      이벤트 버스(Event Bus) : 이벤트 간에 데이터를 전달할 수 있는 방법을
+      의미한다. 사용 방법은 $emit(이벤트 생성), $on(이벤트 호출), $off(이벤트
+      제거)<br />
+      보내는 컴포넌트에는 .$emit()을, 받는 컴포넌트에는 .$on()을 구현한다.
+    </h3>
+    <hr />
+
+    <!-- 24. 08. 06 -->
+    <div id="app">
+      🎲주사위 수 : {{number}}&nbsp;&nbsp;&nbsp;<button @click="rollDiceEvent">
+        주사위 던지기
+      </button>
+      <br />
+      🎲주사위 수 + 10 : {{number}}&nbsp;&nbsp;&nbsp;<button @click="rollDiceEvent(10)">주사위 던지기02</button>
+      <br /><br />
+      1️⃣ 숫자 증가 : {{count}}<br />
+      2️⃣ 숫자 ✖️ 2 : {{count * 2}}<br />
+      3️⃣ 숫자 삼항 연산 : {{count % 2 == 0?"짝수":"홀수"}}
+      <br /><br />
+      <button @click="count += 1">클릭으로 숫자 증가</button><br />
+      <button @click="count ++">클릭으로 숫자 증가</button>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            number: 0,
+            number2: 0,
+            count: 0,
+          };
+        },
+        methods: {
+          rollDiceEvent() {
+            let num = Math.floor(Math.random() * 6 + 1); // 1 ~ 6 사이의 임의 정수 생성
+            this.number = num;
+          },
+          rollDiceEvent2(arg) {
+            let num = Math.floor(Math.random() * 6 + 1 + arg); // 결과에 10이 더해짐
+            this.number2 = num;
+          },
+        },
+      }).mount("#app");
+    </script>
+
+    <br />
+    <hr />
+    <!-- props 관련 -->
+    <!-- app2 -->
+    <div id="app2">
+      <!-- 부모 컴포넌트에서 자식 컴포넌트로 데이터 전달 시 props 사용 -->
+      app2 메세지 : <child-component :propsdata="message"></child-component>
+    </div>
+    <script>
+      const app2 = Vue.createApp({
+        data() {
+          return {
+            message: "Vue 부모 컴포넌트에서 자식 컴포넌트로 전달 메세지💬",
+          };
+        },
+      });
+      app2.component("child-component", {
+        props: ["propsdata"], // 부모로부터 propsdata라는 프로퍼티를 받는다.
+        template: "<span>{{propsdata}}</span>",
+        // props를 사용하는 경우 : 동일한 내용이 같은 부분에서 자주 반복되는 경우에 컴포넌트를 이용한다.
+        // 사용자 댓글, 블로그 게시글, 썸네일 등 전체적인 큰 틀은 중복되나 그 안의 내용이 다른 부분이 있는 경우에는 컴포넌트 선언 시 props를 사용해 다른 내용을 전달할 수 있다.
+
+        // 컴포넌트 tag명, props이름 줄 때 주의 사항(Vue Component도 포함)
+        // props-data(kebab case 표기법 가능), props_data(snake case 표기법 가능), propsData(camel case 표기법 불가능 : vue 작업내용과 충돌가능성O)
+      });
+      app2.mount("#app2");
+    </script>
+
+    <hr />
+    <br />
+    <!-- app3 -->
+    <div id="app3">
+      <child-component @show-log="printText"></child-component>
+      <h2>{{msg}}</h2>
+    </div>
+    <script>
+      const app3 = Vue.createApp({
+        data() {
+          return {
+            msg: "",
+          };
+        },
+        methods: {
+          printText() {
+            const logMessage = "이벤트 수신 성공";
+            console.log(logMessage);
+            this.msg = logMessage;
+          },
+        },
+      });
+      app3.component("child-component", {
+        template: '<button @click="showLog">버튼 🔘</button>',
+        methods: {
+            showLog() {
+                this.$emit('show-log'); // 보내는 컴포넌트
+            }
+        }
+      });
+      app3.mount("#app3");
+    </script>
+  </body>
 </html>

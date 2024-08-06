@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- vue3 라이브러리 로딩 : CDN -->
+    <script src="https://unpkg.com/vue@3"></script>
+  </head>
+  <body>
+    <!-- 첫번째 인스턴스 -->
+    <div id="app">
+    {{ key }} {{ key2 }}
+    <br>
+    <b>{{ message }}</b>
+    <br>
+    <input type="text" v-model="message">
+    <div v-html="htmlString"></div> <!-- INNER HTML -->
+    <div>{{ htmlString }}</div> <!-- INNER TEXT .. 텍스트 그대로 출력 -->
+    <br>
+    <!-- 이벤트 리스너를 이용해 메소드 호출 : button -->
+    <button @click="myFunc">클릭 : 콘솔로 출력🕹️</button>&nbsp;&nbsp;
+    <button @click="myChange1">변경1</button>&nbsp;&nbsp;
+    <button @click="myChange2">변경2</button>
+    <br><br>
+
+    <!-- 두 수 더하기 -->
+    <input type="text" size="5" v-model.number="num1"> + <!-- 문자열을 숫자로 : .number 적어주기 -->
+    <input type="text" size="5" v-model.number="num2"> =
+    <span>{{ num1 + num2 }}</span>
+    <br>
+    <img v-bind:src="daumlogo" style="width: 100px; height: auto;">
+    </div><br />
+
+
+    <hr>
+    <!-- 두번째 인스턴스
+         (SyntaxError: Identifier 'createApp' has already been declared)
+         위 문제 해결 방법은 IIFE로 Vue 인스턴스를 감싸주면 식별자 충돌 문제를 해결할 수 있다. -->
+    <div id="app2">
+        <select>
+            <option v-bind:value="buser.number" v-for="(buser, index) in busers" :key="index">
+                {{ buser.name }} {{ buser.tel }}
+            </option>
+        </select>
+
+    <br><br>
+    <table border="1">
+        <thead>
+            <tr><th>부서 번호</th><th>부서명</th><th>전화</th></tr>
+        </thead>
+        <tbody>
+            <tr v-for="(buser, index) in busers" :key="index">
+                <td>{{ buser.number }}</td>
+                <td>{{ buser.name }}</td>
+                <td>{{ buser.tel }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <span v-bind:style="cssStyleTest">컨텐츠 스타일 바인딩</span><br><br>
+    <button @click="cssStyleTest.fontSize='30px'">글자 크기</button>
+    </div><br />
+
+    <hr>
+    <!-- 세번째 인스턴스 -->
+    <div id="app3event">
+
+    </div><br />
+
+    <hr>
+    <!-- 각 뷰 인스턴스를 JS 파일로 작성 후 연결 -->
+     <script src="ex08_JS1.js"></script>
+     <script src="ex08_JS2.js"></script>
+     <script src="ex08_JS3.js"></script>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- vue3 라이브러리 로딩 : CDN -->
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+반복 렌더링을 위한 v-for 연습 : JS 파일을 별도 작성
+
+<div id="app">
+    <h3>마시고 싶은 것🍹</h3>
+    <ul style="list-style: none;">
+        <li v-for="item in list" :key="item">{{ item }}</li>
+    </ul>
+
+    <br>
+    <h3>가고 싶은 여행지 목록✈️</h3>
+    <ol style="list-style: none;">
+        <li v-for="(city, index) in objArr" :key="index">{{ city.site }}은 {{city.taketime}}</li>
+    </ol>
+
+    <br>
+    <h3>구구단 3단 출력🤔</h3>
+    <ul style="list-style: none;">
+        <li v-for="n in 9" :key="n" > 3 * {{ n }} = {{ 3 * n }}</li>
+    </ul>
+
+    <br>
+    <h3>배열 자료 추가, 삭제</h3>
+    <ul style="list-style: none;">
+        <li v-for="(item, index) in myArr" :key="index">{{ item }}</li>
+    </ul>
+    <button @click="addList">자료 추가 (맨 뒤)</button><br>
+    <button @click="addListIndex(3)">자료 추가 (특정)</button><br>
+    <button @click="changeList(2)">자료 변경</button><br>
+    <button @click="deleteList(1)">자료 삭제</button><br>
+
+    <br>
+    <h3>for + if문 조합 : 홀수 출력</h3>
+    <span v-for="(i, index) in numArr" v-if="1 % 2 == 1" :key="index">{{ i }}&nbsp;</span>
+</div>
+
+<script src="ex07_add.js">
+
+</script>
+
+</body>
+</html>

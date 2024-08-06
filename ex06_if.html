@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- vue3 라이브러리 로딩 : CDN -->
+    <script src="https://unpkg.com/vue@3"></script>
+    <!-- CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <h2>조건부 렌더링을 위한 v-if 연습</h2>
+    <hr />
+    <div id="app">
+        <p v-if="season">난 여름이 싫어⚓</p>
+        <p v-else>난 겨울이 좋아☃️</p>
+        <button @click ="season = !season" class="btn btn-success">toggle</button>
+        <br><br>
+
+        <!-- 조건, 반복 렌더링을 할 때 유용한 특수 HTML TAG -->
+        <!-- 👇🏻template 안에 있는 내용만 동적 처리가 된다. -->
+        <template v-if="season">
+            <p>땀이 너무 많이나💦</p>
+            <p>벌레도 너무 많아🐛</p>
+        </template>
+        <template v-else="season">
+            <p>이쁜 옷 맘껏 입을 수 있어🧣</p>
+            <p>붕어빵 좋아🐟</p>
+            <p>그냥 좋아!!</p>
+        </template>
+        <br>
+        <span v-show="season">
+            <p>여름이다~</p>
+        </span>
+        <!-- v-if, v-show의 차이 -->
+        <p v-if="season">여름 싫어 - false인 경우 코드가 제거됨</p><br>
+        <p v-show="season">여름 싫어 - false인 경우 display:none</p>
+
+        <hr>
+        <label><input type="checkbox" v-model="myVisiable" />체크박스 표시(체크박스 전용)</label>
+        <p v-if="myVisiable">Check On</p>
+        <p v-else>Check Off</p>
+
+        <!-- count 값에 따른 조건부 렌더링 -->
+        <p v-if="count === 10">{{ count }} 번 클릭하면 버튼 비활성화</p>
+        <p v-else-if="count >= 1">현재 클릭 횟수 : {{ count }}</p>
+        <p v-else>버튼을 클릭하세요</p>
+        <button v-bind:disabled="count === 10" @click="addFunc">숫자 늘리기</button>
+
+    </div>
+
+    <script>
+      const { createApp } = Vue;
+
+      createApp({
+        data() {
+          return {
+            season: true, // true(여름), false(겨울)
+            myVisiable: false, // CheckBox 상태 초기화. false면 체크X true면 체크O
+            count: 0,
+          };
+        },
+        methods: {
+          addFunc() {
+            this.count++;
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
