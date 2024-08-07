@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- vue3 라이브러리 로딩 : CDN -->
+    <script src="https://unpkg.com/vue@3"></script>
+    
+    <!-- Google Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.prod.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
+    <!-- 동적으로 움직이게 -->
+    <script>
+        let datas = [
+            ['삼겹살', 3], ['사시미', 6], ['마라탕', 10], ['피자', 5], ['치킨', 3]
+        ];
+
+        google.charts.load('current', {packages:['corechart']});
+        google.charts.setOnLoadCallback(drawFunc); // 콜백 함수
+
+        function drawFunc() {
+            let data = google.visualization.arrayToDataTable([
+                ['종류', '갯수'], ...datas
+                // [['삼겹살', 3], ['사시미', 6]...]
+            ]);
+            let options = {title: '뇽뇽뇽', is3D:true} // 3D차트 활성화
+            let chart = new google.visualization.PieChart(document.querySelector('#chart_div'));
+            chart.draw(data, options); // 차트를 그려줌
+
+        }
+
+    </script>
+</head>
+<body>
+    <h2>Google Chart(원 그래프) 그리기</h2>
+    메뉴 선택<br>
+    <div id="chart_div" style="height: 500px;"></div>
+
+    <div id="app">
+        <!-- 차트 그리기 -->
+         <li v-for="(value, index) in dataArray" :key="index" style="list-style: none;">
+            {{value[0]}} : {{value[1]}}
+            &nbsp;
+            <button @click="addOneFunc(index)">1 증가</button>
+            <button @click="subOneFunc(index)">1 감소</button>
+         </li>
+    </div>
+
+    <script>
+        const {createApp} = Vue;
+
+        createApp ({
+            data() {
+                return {
+                    dataArray: datas
+                }
+            },
+            methods: {
+                addOneFunc(index) {
+                    this.dataArray[index][1]++;
+                    this.updateChart()
+                },
+                subOneFunc(index) {
+                    if(this.dataArray[index][1] > 0) // this.dataArray[index]의 [1]행 값이 0보다 클 때만 수행
+                    this.dataArray[index][1]--;
+                    updateChart()
+                },
+                updateChart() {
+                    drawFunc();
+                }
+            },
+        }).mount('#app');
+    </script>
+</body>
+</html>

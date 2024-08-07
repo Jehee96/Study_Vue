@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- vue3 라이브러리 로딩 : CDN -->
+    <script src="https://unpkg.com/vue@3"></script>
+  </head>
+  <body>
+    <h2>AJAX 👉🏻 JSON Change</h2>
+    <div id="app">
+      <button @click="fetchData">AJAX로 JSON 자료 읽기</button><br><br>
+      <button @click="clearData">JSON 자료 지우기</button>
+
+      <div v-for="(post, index) in posts" :key="index">
+        <h3>{{post.title}}</h3>
+        <br>{{post.id}}<br/>
+        <br>{{post.body}}<br/>
+      </div>
+    </div>
+
+    <script>
+      const { createApp } = Vue;
+
+      createApp ({
+        data() {
+            return {
+                posts:[] // 담기
+            }
+        },
+        methods: {
+            fetchData() { // AJAX
+                fetch('https://jsonplaceholder.typicode.com/posts') // 이 사이트에서 AJAX
+                .then(response => { // Promise
+                    if(!response.ok) {
+                        throw new Error('AJAX ERROR'); // response가 ok가 아니면 에러메세지 던지기
+                    }
+                    return response.json(); // ok이면 json타입의 문자열로 바꿔 리턴
+                })
+                .then(json => {
+                    this.posts = json.slice(0, 10); // 가져온 데이터를 10개까지만 자르기
+                })
+                .catch(error => {
+                    console.log('읽기 오류 : ', error);
+                })
+            },
+            clearData() {
+                this.posts = []; // 비우기
+            }
+        },
+      }).mount('#app');
+    </script>
+  </body>
+</html>
